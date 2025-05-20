@@ -67,6 +67,7 @@ def get_top_queries():
         return pd.DataFrame(columns=["query", "count"])
     
     df = pd.read_csv(QUERY_LOG_FILE, sep="|", names=["query", "response"])
+    df_filtered = df[~df["query"].str.startswith("-")]
     top_queries = df["query"].value_counts().head(5).reset_index()
     top_queries.columns = ["query", "count"]
     return top_queries
