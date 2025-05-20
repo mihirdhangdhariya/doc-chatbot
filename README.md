@@ -32,13 +32,22 @@ pip install -r requirements.txt
 
 requirements.txt
 
-streamlit
+﻿streamlit
+torch>=2.5.0
+sentence-transformers==2.2.2
+cohere
+PyPDF2
+PyMuPDF==1.23.9
 pandas
+scikit-learn
 matplotlib
 plotly
-sentence-transformers
-cohere
-PyMuPDF
+huggingface_hub==0.10.1
+sentence-transformers==2.2.2
+transformers==4.25.1
+tokenizers==0.13.3
+cohere==5.1.8
+
 
 
 ### 3. Set Up API Key
@@ -58,41 +67,7 @@ streamlit run app.py
 
 ## Architecture Overview
 
-text
-        ┌────────────┐
-        │  User UI   │
-        └─────┬──────┘
-              │
-              ▼
-      ┌─────────────────┐
-      │ Upload Document │◄──── PDF
-      └────────┬────────┘
-               │
-               ▼
-      ┌────────────────────┐
-      │   PDF Text Parser  │
-      └────────┬───────────┘
-               │
-        ┌──────▼─────┐
-        │ Vectorizer │  ← SentenceTransformer
-        └──────┬─────┘
-               │
-        ┌──────▼────────┐
-        │ Vector Search │ ← Cosine Similarity
-        └──────┬────────┘
-               │
-        ┌──────▼───────┐
-        │  Cohere API  │ ← Generates response
-        └──────┬───────┘
-               │
-      ┌────────▼───────────┐
-      │ Response + Logging │ → CSV
-      └────────┬───────────┘
-               │
-        ┌──────▼─────────┐
-        │ Analytics View │ ← Top 5 queries, pie + bar chart
-        └────────────────┘
-
+![Document Upload Processing Flowchart](https://github.com/user-attachments/assets/33d8fd43-0d7f-40f3-a02b-19c515abc84e)
 
 ---
 
