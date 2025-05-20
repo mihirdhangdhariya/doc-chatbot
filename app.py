@@ -10,7 +10,7 @@ import fitz  # PyMuPDF for PDF parsing
 # Initialize paths and Cohere
 DOCUMENTS_DIR = "documents"
 QUERY_LOG_FILE = "query_logs/query_log.csv"
-COHERE_API_KEY = "LUGPhUpYNaKb9h3RyeeGGZr1h4Lm63Rnubr8chJl"  # Replace with your actual API key
+COHERE_API_KEY = "LUGPhUpYNaKb9h3RyeeGGZr1h4Lm63Rnubr8chJl" 
 
 os.makedirs(DOCUMENTS_DIR, exist_ok=True)
 os.makedirs(os.path.dirname(QUERY_LOG_FILE), exist_ok=True)
@@ -115,7 +115,7 @@ with col2:
         fig = px.bar(top_queries_df, x='query', y='count', title="Top 5 Queries - Bar Chart")
         st.plotly_chart(fig, use_container_width=True)
 
-# Optional Pie Chart
+# Pie Chart
 if not top_queries_df.empty:
     st.markdown("**Pie Chart of Top Queries**")
     fig_pie = px.pie(top_queries_df, values='count', names='query', title='Top 5 Queries Distribution')
