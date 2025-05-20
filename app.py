@@ -59,8 +59,9 @@ def get_response(query, context):
     return response.text
 
 def log_query(query, response):
+    safe_response = response.replace("\n", "\\n")
     with open(QUERY_LOG_FILE, "a", encoding="utf-8") as f:
-        f.write(f"{query}|{response}\n")
+        f.write(f"{query}|{safe_response}\n")
 
 def get_top_queries():
     if not os.path.exists(QUERY_LOG_FILE):
@@ -68,6 +69,7 @@ def get_top_queries():
     
     df = pd.read_csv(QUERY_LOG_FILE, sep="|", names=["query", "response"])
     df_filtered = df[~df["query"].str.startswith("-")]
+    df_filtered["response"] = df_filtered["response"].str.replace("\\n", "\n")
     top_queries = df["query"].value_counts().head(5).reset_index()
     top_queries.columns = ["query", "count"]
     return top_queries
