@@ -10,7 +10,7 @@ A Streamlit-powered chatbot that lets you upload documents (PDF), ask questions,
 - Upload and index multiple PDF documents
 - Ask natural language questions and receive context-aware responses
 - Logs queries and responses for future analysis
-- Displays top 5 most frequently asked queries in a data table and bar chart
+- Displays top 5 most frequently asked queries in a data table ,bar chart and Pie charts.
 - Uses Cohere API for response generation
 - Vector-based document search with `sentence-transformers`
 - Intuitive UI with Streamlit
