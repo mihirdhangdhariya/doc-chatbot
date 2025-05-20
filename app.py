@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 from sentence_transformers import SentenceTransformer, util
 import cohere
+import streamlit as st
+import uuid
 import fitz  # PyMuPDF for PDF parsing
 
 # Initialize paths and Cohere
@@ -58,19 +60,23 @@ def get_response(query, context):
     )
     return response.text
 
+if 'user_id' not in st.session_state:
+    st.session_state.user_id = str(uuid.uuid4())
+
 def log_query(query, response):
+    user_log_file = f"query_logs/query_log_{st.session_state.user_id}.csv"
     safe_response = response.replace("\n", "\\n")
-    with open(QUERY_LOG_FILE, "a", encoding="utf-8") as f:
+    with open(user_log_file, "a", encoding="utf-8") as f:
         f.write(f"{query}|{safe_response}\n")
 
 def get_top_queries():
-    if not os.path.exists(QUERY_LOG_FILE):
+    user_log_file = f"query_logs/query_log_{st.session_state.user_id}.csv"
+    if not os.path.exists(user_log_file):
         return pd.DataFrame(columns=["query", "count"])
-    
-    df = pd.read_csv(QUERY_LOG_FILE, sep="|", names=["query", "response"])
+    df = pd.read_csv(user_log_file, sep="|", names=["query", "response"])
     df_filtered = df[~df["query"].str.startswith("-")]
     df_filtered["response"] = df_filtered["response"].str.replace("\\n", "\n")
-    top_queries = df["query"].value_counts().head(5).reset_index()
+    top_queries = df_filtered["query"].value_counts().head(5).reset_index()
     top_queries.columns = ["query", "count"]
     return top_queries
 
